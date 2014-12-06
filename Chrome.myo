@@ -1,0 +1,48 @@
+scriptId = 'co.randompaper.myo.chrome'
+initRoll = 0
+currRoll = 0
+enableScroll = false
+debug = true
+
+gesture = 'fist'
+
+function onForegroundWindowChange(app, title)
+  return app == "com.google.Chrome"
+end
+
+function onPoseEdge(pose, edge)
+  if pose == gesture and edge == 'on' then
+    initRoll = myo.getRoll()
+    enableScroll = true
+
+    myo.unlock("hold")
+  elseif pose == gesture and edge == 'off' then
+    enableScroll = false
+
+    myo.unlock("timed")
+  elseif pose == 'waveIn' and edge == 'on' then
+    myo.keyboard("leftbracket", "press", "command")
+  elseif pose == 'waveOut' and edge == 'on' then
+    myo.keyboard("rightbracket", "press", "command")
+  end
+end
+
+function onPeriodic()
+  if enableScroll then
+    roll = myo.getRoll() - initRoll
+
+    key = ''
+    speed = math.abs(roll)
+
+    if roll < -0.05 then
+      key = 'up_arrow'
+    elseif roll > 0.05 then
+      key = 'down_arrow'
+    end
+
+    if key ~= '' then
+      myo.keyboard(key, 'press')
+    end
+
+  end
+end
