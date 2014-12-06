@@ -1,0 +1,18 @@
+scriptId = 'co.randompaper.myo.statistics'
+
+function onForegroundWindowChange(app, title)
+  return false
+end
+
+function onPoseEdge(pose, edge)
+
+end
+
+function onPeriodic()
+  roll = myo.getRoll()
+  pitch = myo.getPitch()
+  yaw = myo.getYaw()
+  x, y, z = myo.getGyro()
+  accel_x, accel_y, accel_z = myo.getAccel()
+  accel_world_x, accel_world_y, accel_world_z = myo.getAccelWorld()
+end
